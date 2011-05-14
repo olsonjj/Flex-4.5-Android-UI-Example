@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Android Themed Components" backgroundAlpha="0" xmlns:button="com.yapiodesign.components.android.button.*">
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import com.yapiodesign.components.android.assets.AlertIconBD;
+			import com.yapiodesign.components.android.datepicker.DatePickerPopUp;
+			import com.yapiodesign.components.android.optionsmenu.OptionsMenu;
+			import com.yapiodesign.components.android.timepicker.TimePicker;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.PopUpEvent;
+			
+			private var alert:AlertDialog;
+			private var dp:DatePickerPopUp;
+			private var menu:OptionsMenu;
+			private var timePicker:TimePicker;
+
+			import com.yapiodesign.components.android.alert.AlertDialog;
+			
+			protected function showAlertDialog():void
+			{
+				lb.text = "";
+				alert = new AlertDialog();
+				alert.title = "Alert Sample";
+				alert.message = "This is a sample alert pop-up. It is designed to be centered and a fixed size.";
+				alert.addEventListener(PopUpEvent.CLOSE, onAlertClose);
+				alert.open(this, true);
+			}
+
+			protected function onAlertClose(event:PopUpEvent):void
+			{
+				alert.removeEventListener(PopUpEvent.CLOSE, onAlertClose);
+				
+				if (event.commit)
+					lb.text = "Alert: OK";
+				else
+					lb.text = "Alert: Cancel";
+				
+				alert = null;
+			}
+
+			protected function showDatePicker():void
+			{
+				
+				lb.text = "";
+				
+				dp = new DatePickerPopUp();
+				dp.date = new Date(1999, 11,31);
+				dp.addEventListener(PopUpEvent.CLOSE, onDatePickerClose);
+				dp.open(this, true);
+			}
+
+			protected function onDatePickerClose(event:PopUpEvent):void
+			{
+				dp.removeEventListener(PopUpEvent.CLOSE, onDatePickerClose);
+				
+				if (event.commit)
+				{
+					var newDate:Date = event.data as Date;
+					lb.text = newDate.toDateString();
+				}
+				else	
+					lb.text = dp.date.toDateString();
+				
+				dp = null;
+			}
+
+			protected function showOptionsMenu():void
+			{
+				lb.text = "";
+				menu = new OptionsMenu();
+				menu.title = "Options Menu";
+				menu.flags = OptionsMenu.OK | OptionsMenu.CANCEL;
+				
+				menu.addEventListener(PopUpEvent.CLOSE, onMenuClose);
+				menu.addEventListener(Event.CHANGE, onMenuChange);
+				menu.selectedIndex = 4;
+				
+				var ac:ArrayCollection = new ArrayCollection();
+				ac.addItem({label:'Cheese'});
+				ac.addItem({label:'Apples'});
+				ac.addItem({label:'Milk'});
+				ac.addItem({label:'Cherries'});
+				ac.addItem({label:'Bread'});
+				ac.addItem({label:'Lettuce'});
+				ac.addItem({label:'Chicken'});
+				menu.options = ac;
+				
+				menu.open(this, true);
+				
+			}
+
+			protected function onMenuChange(event:Event):void
+			{
+				trace( "MenuChange: ", menu.selectedItem.label, "index->", menu.selectedIndex);
+			}
+
+			protected function onMenuClose(event:PopUpEvent):void
+			{
+				var item:Object = event.data;
+				if (event.commit)
+				{
+					lb.text = "New-> " + item.label;
+				}
+				else
+				{
+					lb.text = "Cancel, original->" + item.label;
+				}
+				
+				menu.removeEventListener(PopUpEvent.CLOSE, onMenuClose);
+				menu.removeEventListener(Event.CHANGE, onMenuChange);
+				menu = null;
+					
+			}
+
+			protected function showTimePicker():void
+			{
+				lb.text = "";
+				timePicker = new TimePicker();
+				timePicker.date = new Date();
+				timePicker.addEventListener(PopUpEvent.CLOSE, onTimePickerClose);
+				timePicker.open(this, true);
+			}
+
+			protected function onTimePickerClose(event:PopUpEvent):void
+			{
+				if (event.commit)
+				{
+					var time:Date = event.data as Date;
+					lb.text = time.toTimeString();
+				}
+				
+				timePicker.removeEventListener(PopUpEvent.CLOSE, onTimePickerClose);
+				timePicker = null;
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:VGroup horizontalAlign="center"
+			  horizontalCenter="0" gap="20"
+			  top="25">
+		<s:Button label="UI Controls"
+				  click="navigator.pushView( UIControls )"/>
+		<s:Button label="Tabbed Views" click="navigator.pushView(TabbedView)"/>
+		
+		
+		<s:Button label="Alert PopUp" click="showAlertDialog()"/>
+		<s:Button label="Date Picker PopUp" click="showDatePicker()"/>
+		<s:Button label="Time Picker PopUp" click="showTimePicker()"/>
+		<s:Button label="Option Menu PopUp" click="showOptionsMenu()"/>
+		
+		<s:Rect height="15"/>
+		<s:Label id="lb" color="#FFFFFF"/>
+	</s:VGroup>
+
+</s:View>

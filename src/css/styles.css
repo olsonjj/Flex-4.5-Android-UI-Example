@@ -1,0 +1,42 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+
+s|Label
+{
+	color: #FFFFFF;
+}
+
+/* used by sample project to style buttons to match */
+s|Button
+{
+	skinClass:ClassReference("com.yapiodesign.components.android.skins.AndroidButtonSkin");
+}
+
+s|CheckBox
+{
+	skinClass: ClassReference("com.yapiodesign.components.android.skins.AndroidCheckBoxSkin");
+}
+
+@media (os-platform: "Android") and (application-dpi: 240)
+{
+	s|LabelItemRenderer
+	{
+		fontSize: 24;
+	}
+}
+
+@media (os-platform: "Android") and (application-dpi: 320)
+{
+	s|LabelItemRenderer
+	{
+		fontSize: 24;
+	}
+}
+
+@media (os-platform: "Android") and (application-dpi: 160)
+{
+	s|LabelItemRenderer
+	{
+		fontSize: 26;
+	}
+}
