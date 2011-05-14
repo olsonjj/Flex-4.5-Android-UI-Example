@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:View xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		title="Android Themed UI Controls" backgroundAlpha="0" xmlns:stepper="com.yapiodesign.components.android.stepper.*" creationComplete="initView()" xmlns:button="com.yapiodesign.components.android.button.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.rpc.soap.WebService;
+			
+		
+			protected function initView():void
+			{
+				var vsAC:ArrayCollection = new ArrayCollection();
+				vsAC.addItem({label:'one'});
+				vsAC.addItem({label:'two'});
+				vsAC.addItem({label:'three'});
+				vsAC.addItem({label:'four'});
+				vsAC.addItem({label:'five'});
+				
+				var vsAC2:ArrayCollection = new ArrayCollection();
+				vsAC2.addItem({label:'Mon'});
+				vsAC2.addItem({label:'Tues'});
+				vsAC2.addItem({label:'Wed'});
+				vsAC2.addItem({label:'Thur'});
+				vsAC2.addItem({label:'Fri'});
+				vsAC2.addItem({label:'Sat'});
+				vsAC2.addItem({label:'Sun'});
+				
+				
+				vStepper1.data = vsAC;
+				vStepper2.data = vsAC2;
+				vStepper3.data = vsAC2;
+				
+				vStepper2.index = 2;
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup top="25" left="25"
+			  gap="20">
+
+		<s:HGroup verticalAlign="middle">
+			<button:AndroidButton label="Button"/>
+			<s:Label text=" -- supports mouseDownAndHold event" fontSize="14"/>
+		</s:HGroup>
+		
+		<button:AndroidButton label="Button Disabled" enabled="false"/>
+		
+		<s:CheckBox id="cb" label="{'Checkbox selected: ' + cb.selected}"/>
+		<s:CheckBox label="Checkbox Disabled" enabled="false"/>
+		
+		<s:HGroup>
+			<stepper:VerticalStepper id="vStepper1" change="trace(vStepper1.toString());"/>
+			<stepper:VerticalStepper id="vStepper2"  change="trace(vStepper2.toString());"/>
+			<stepper:VerticalStepper id="vStepper3" enabled="false" />
+		</s:HGroup>
+		
+		<s:Rect height="25"/>
+		<button:AndroidButton label="Return to Main"
+				  click="navigator.popView()"/>
+		
+	</s:VGroup>
+
+</s:View>
